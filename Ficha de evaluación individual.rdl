@@ -1,0 +1,810 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Report MustUnderstand="df" xmlns="http://schemas.microsoft.com/sqlserver/reporting/2016/01/reportdefinition" xmlns:rd="http://schemas.microsoft.com/SQLServer/reporting/reportdesigner" xmlns:df="http://schemas.microsoft.com/sqlserver/reporting/2016/01/reportdefinition/defaultfontfamily" xmlns:am="http://schemas.microsoft.com/sqlserver/reporting/authoringmetadata">
+  <rd:ReportUnitType>Mm</rd:ReportUnitType>
+  <rd:ReportID>cc63780d-208e-476f-8b59-c8286ef8b3e6</rd:ReportID>
+  <am:AuthoringMetadata>
+    <am:CreatedBy>
+      <am:Name>MSRB</am:Name>
+      <am:Version>15.1.30001.02</am:Version>
+    </am:CreatedBy>
+    <am:UpdatedBy>
+      <am:Name>MSRB</am:Name>
+      <am:Version>15.1.30001.02</am:Version>
+    </am:UpdatedBy>
+    <am:LastModifiedTimestamp>2026-06-25T02:52:13.0540550Z</am:LastModifiedTimestamp>
+  </am:AuthoringMetadata>
+  <df:DefaultFontFamily>Segoe UI</df:DefaultFontFamily>
+  <AutoRefresh>0</AutoRefresh>
+  <DataSources>
+    <DataSource Name="DataSource1">
+      <rd:SecurityType>Integrated</rd:SecurityType>
+      <ConnectionProperties>
+        <DataProvider>SQL</DataProvider>
+        <ConnectString>Data Source=Jesser;Initial Catalog=EvaluacionDesempenoDB</ConnectString>
+        <IntegratedSecurity>true</IntegratedSecurity>
+      </ConnectionProperties>
+      <rd:DataSourceID>725abcfe-97a3-4dec-801d-b1ba7f432691</rd:DataSourceID>
+    </DataSource>
+  </DataSources>
+  <DataSets>
+    <DataSet Name="DSFicha">
+      <Query>
+        <DataSourceName>DataSource1</DataSourceName>
+        <QueryParameters>
+          <QueryParameter Name="@ID_Periodo">
+            <Value>=Parameters!ID_Periodo.Value</Value>
+          </QueryParameter>
+          <QueryParameter Name="@ID_Empleado">
+            <Value>=Parameters!ID_Empleado.Value</Value>
+          </QueryParameter>
+        </QueryParameters>
+        <CommandText>SELECT 
+    E.ID_Empleado,
+    (E.Nombres + ' ' + E.Apellidos) AS NombreEmpleado,
+    C.nombreCargo,
+    D.nombreDepartamento,
+    S.nombreSucursal,
+    P.NombrePeriodo,
+    SF.scoreCompetencias,
+    SF.scoreMetas,
+    SF.scoreTotal,
+    SF.cuadrante9Box,
+    F.Comentarios,
+    F.Fortalezas,
+    F.OportunidadesMejora
+FROM Organizacion.Empleado E
+INNER JOIN Organizacion.Cargo C ON E.ID_Cargo = C.cargoID
+INNER JOIN Organizacion.Departamento D ON C.departamentoID = D.departamentoID
+INNER JOIN Organizacion.Sucursal S ON D.sucursalID = S.sucursalID
+INNER JOIN Analisis.ScoreFinal SF ON E.ID_Empleado = SF.ID_Empleado
+INNER JOIN Desempeno.PeriodoEvaluativo P ON SF.ID_Periodo = P.ID_Periodo
+LEFT JOIN Desempeno.Evaluacion Ev ON E.ID_Empleado = Ev.ID_Empleado AND Ev.ID_Periodo = P.ID_Periodo
+LEFT JOIN Desempeno.Feedback F ON Ev.ID_Evaluacion = F.ID_Evaluacion
+WHERE SF.ID_Periodo = @ID_Periodo AND E.ID_Empleado = @ID_Empleado;</CommandText>
+      </Query>
+      <Fields>
+        <Field Name="ID_Empleado">
+          <rd:TypeName>System.Int32</rd:TypeName>
+          <DataField>ID_Empleado</DataField>
+        </Field>
+        <Field Name="NombreEmpleado">
+          <rd:TypeName>System.String</rd:TypeName>
+          <DataField>NombreEmpleado</DataField>
+        </Field>
+        <Field Name="nombreCargo">
+          <rd:TypeName>System.String</rd:TypeName>
+          <DataField>nombreCargo</DataField>
+        </Field>
+        <Field Name="nombreDepartamento">
+          <rd:TypeName>System.String</rd:TypeName>
+          <DataField>nombreDepartamento</DataField>
+        </Field>
+        <Field Name="nombreSucursal">
+          <rd:TypeName>System.String</rd:TypeName>
+          <DataField>nombreSucursal</DataField>
+        </Field>
+        <Field Name="NombrePeriodo">
+          <rd:TypeName>System.String</rd:TypeName>
+          <DataField>NombrePeriodo</DataField>
+        </Field>
+        <Field Name="scoreCompetencias">
+          <rd:TypeName>System.Decimal</rd:TypeName>
+          <DataField>scoreCompetencias</DataField>
+        </Field>
+        <Field Name="scoreMetas">
+          <rd:TypeName>System.Decimal</rd:TypeName>
+          <DataField>scoreMetas</DataField>
+        </Field>
+        <Field Name="scoreTotal">
+          <rd:TypeName>System.Decimal</rd:TypeName>
+          <DataField>scoreTotal</DataField>
+        </Field>
+        <Field Name="cuadrante9Box">
+          <rd:TypeName>System.String</rd:TypeName>
+          <DataField>cuadrante9Box</DataField>
+        </Field>
+        <Field Name="Comentarios">
+          <rd:TypeName>System.String</rd:TypeName>
+          <DataField>Comentarios</DataField>
+        </Field>
+        <Field Name="Fortalezas">
+          <rd:TypeName>System.String</rd:TypeName>
+          <DataField>Fortalezas</DataField>
+        </Field>
+        <Field Name="OportunidadesMejora">
+          <rd:TypeName>System.String</rd:TypeName>
+          <DataField>OportunidadesMejora</DataField>
+        </Field>
+      </Fields>
+    </DataSet>
+  </DataSets>
+  <ReportSections>
+    <ReportSection>
+      <Body>
+        <ReportItems>
+          <Tablix Name="Tablix2">
+            <TablixBody>
+              <TablixColumns>
+                <TablixColumn>
+                  <Width>180.55166mm</Width>
+                </TablixColumn>
+              </TablixColumns>
+              <TablixRows>
+                <TablixRow>
+                  <Height>73.495mm</Height>
+                  <TablixCells>
+                    <TablixCell>
+                      <CellContents>
+                        <Rectangle Name="Rectangle1">
+                          <ReportItems>
+                            <Textbox Name="NombreEmpleado">
+                              <rd:DefaultName>NombreEmpleado</rd:DefaultName>
+                              <CanGrow>true</CanGrow>
+                              <KeepTogether>true</KeepTogether>
+                              <Paragraphs>
+                                <Paragraph>
+                                  <TextRuns>
+                                    <TextRun>
+                                      <Value>=Fields!NombreEmpleado.Value</Value>
+                                      <Style />
+                                    </TextRun>
+                                  </TextRuns>
+                                  <Style />
+                                </Paragraph>
+                              </Paragraphs>
+                              <Top>3.81mm</Top>
+                              <Left>7.40833mm</Left>
+                              <Height>6mm</Height>
+                              <Width>30.50334mm</Width>
+                              <Style>
+                                <Border>
+                                  <Style>None</Style>
+                                </Border>
+                                <PaddingLeft>2pt</PaddingLeft>
+                                <PaddingRight>2pt</PaddingRight>
+                                <PaddingTop>2pt</PaddingTop>
+                                <PaddingBottom>2pt</PaddingBottom>
+                              </Style>
+                            </Textbox>
+                            <Textbox Name="nombreDepartamento">
+                              <rd:DefaultName>nombreDepartamento</rd:DefaultName>
+                              <CanGrow>true</CanGrow>
+                              <KeepTogether>true</KeepTogether>
+                              <Paragraphs>
+                                <Paragraph>
+                                  <TextRuns>
+                                    <TextRun>
+                                      <Value>=Fields!nombreDepartamento.Value</Value>
+                                      <Style />
+                                    </TextRun>
+                                  </TextRuns>
+                                  <Style />
+                                </Paragraph>
+                              </Paragraphs>
+                              <Top>3.81mm</Top>
+                              <Left>45.50833mm</Left>
+                              <Height>6mm</Height>
+                              <Width>37.7mm</Width>
+                              <ZIndex>1</ZIndex>
+                              <Style>
+                                <Border>
+                                  <Style>None</Style>
+                                </Border>
+                                <PaddingLeft>2pt</PaddingLeft>
+                                <PaddingRight>2pt</PaddingRight>
+                                <PaddingTop>2pt</PaddingTop>
+                                <PaddingBottom>2pt</PaddingBottom>
+                              </Style>
+                            </Textbox>
+                            <Textbox Name="nombreSucursal">
+                              <rd:DefaultName>nombreSucursal</rd:DefaultName>
+                              <CanGrow>true</CanGrow>
+                              <KeepTogether>true</KeepTogether>
+                              <Paragraphs>
+                                <Paragraph>
+                                  <TextRuns>
+                                    <TextRun>
+                                      <Value>=Fields!nombreSucursal.Value</Value>
+                                      <Style />
+                                    </TextRun>
+                                  </TextRuns>
+                                  <Style />
+                                </Paragraph>
+                              </Paragraphs>
+                              <Top>3.81mm</Top>
+                              <Left>90.65466mm</Left>
+                              <Height>6mm</Height>
+                              <Width>28.81001mm</Width>
+                              <ZIndex>2</ZIndex>
+                              <Style>
+                                <Border>
+                                  <Style>None</Style>
+                                </Border>
+                                <PaddingLeft>2pt</PaddingLeft>
+                                <PaddingRight>2pt</PaddingRight>
+                                <PaddingTop>2pt</PaddingTop>
+                                <PaddingBottom>2pt</PaddingBottom>
+                              </Style>
+                            </Textbox>
+                            <Textbox Name="NombrePeriodo">
+                              <rd:DefaultName>NombrePeriodo</rd:DefaultName>
+                              <CanGrow>true</CanGrow>
+                              <KeepTogether>true</KeepTogether>
+                              <Paragraphs>
+                                <Paragraph>
+                                  <TextRuns>
+                                    <TextRun>
+                                      <Value>=Fields!NombrePeriodo.Value</Value>
+                                      <Style />
+                                    </TextRun>
+                                  </TextRuns>
+                                  <Style />
+                                </Paragraph>
+                              </Paragraphs>
+                              <Top>3.81mm</Top>
+                              <Left>130.17501mm</Left>
+                              <Height>6mm</Height>
+                              <Width>27.96332mm</Width>
+                              <ZIndex>3</ZIndex>
+                              <Style>
+                                <Border>
+                                  <Style>None</Style>
+                                </Border>
+                                <PaddingLeft>2pt</PaddingLeft>
+                                <PaddingRight>2pt</PaddingRight>
+                                <PaddingTop>2pt</PaddingTop>
+                                <PaddingBottom>2pt</PaddingBottom>
+                              </Style>
+                            </Textbox>
+                            <GaugePanel Name="GaugePanel1">
+                              <RadialGauges>
+                                <RadialGauge Name="RadialGauge1">
+                                  <GaugeScales>
+                                    <RadialScale Name="RadialScale1">
+                                      <GaugePointers>
+                                        <RadialPointer Name="RadialPointer1">
+                                          <Type>Bar</Type>
+                                          <PointerCap>
+                                            <Style>
+                                              <BackgroundColor>White</BackgroundColor>
+                                              <BackgroundGradientType>DiagonalLeft</BackgroundGradientType>
+                                              <BackgroundGradientEndColor>DimGray</BackgroundGradientEndColor>
+                                              <FontFamily>Arial</FontFamily>
+                                              <BackgroundHatchType>None</BackgroundHatchType>
+                                            </Style>
+                                            <CapImage>
+                                              <OffsetX>0pt</OffsetX>
+                                              <OffsetY>0pt</OffsetY>
+                                              <Source>External</Source>
+                                              <Value />
+                                            </CapImage>
+                                            <OnTop>true</OnTop>
+                                            <CapStyle>RoundedWithWideIndentation</CapStyle>
+                                            <Width>33</Width>
+                                          </PointerCap>
+                                          <NeedleStyle>Tapered</NeedleStyle>
+                                          <Style>
+                                            <Border>
+                                              <Style>None</Style>
+                                            </Border>
+                                            <BackgroundColor>#01b8aa</BackgroundColor>
+                                            <BackgroundGradientType>None</BackgroundGradientType>
+                                            <BackgroundGradientEndColor>Orange</BackgroundGradientEndColor>
+                                            <BackgroundHatchType>None</BackgroundHatchType>
+                                            <ShadowOffset>0pt</ShadowOffset>
+                                          </Style>
+                                          <GaugeInputValue>
+                                            <Value>=Sum(Fields!scoreTotal.Value)</Value>
+                                            <Multiplier>1</Multiplier>
+                                          </GaugeInputValue>
+                                          <PointerImage>
+                                            <OffsetX>0pt</OffsetX>
+                                            <OffsetY>0pt</OffsetY>
+                                            <Source>External</Source>
+                                            <Value />
+                                          </PointerImage>
+                                          <MarkerLength>25</MarkerLength>
+                                          <MarkerStyle>Wedge</MarkerStyle>
+                                          <Placement>Cross</Placement>
+                                          <Width>30</Width>
+                                        </RadialPointer>
+                                      </GaugePointers>
+                                      <Style>
+                                        <Border>
+                                          <Style>None</Style>
+                                        </Border>
+                                        <BackgroundColor>LightGrey</BackgroundColor>
+                                        <BackgroundGradientType>None</BackgroundGradientType>
+                                        <BackgroundGradientEndColor>White</BackgroundGradientEndColor>
+                                        <BackgroundHatchType>None</BackgroundHatchType>
+                                        <ShadowOffset>0pt</ShadowOffset>
+                                      </Style>
+                                      <Interval>50</Interval>
+                                      <IntervalOffset>NaN</IntervalOffset>
+                                      <MaximumValue>
+                                        <Value>100</Value>
+                                        <Multiplier>1</Multiplier>
+                                      </MaximumValue>
+                                      <MinimumValue>
+                                        <Value>0</Value>
+                                        <Multiplier>1</Multiplier>
+                                      </MinimumValue>
+                                      <GaugeMajorTickMarks>
+                                        <Interval>NaN</Interval>
+                                        <IntervalOffset>NaN</IntervalOffset>
+                                        <Style>
+                                          <Border>
+                                            <Color>DimGray</Color>
+                                            <Style>Solid</Style>
+                                          </Border>
+                                          <BackgroundColor>WhiteSmoke</BackgroundColor>
+                                        </Style>
+                                        <Placement>Cross</Placement>
+                                        <TickMarkImage>
+                                          <Source>External</Source>
+                                          <Value />
+                                        </TickMarkImage>
+                                        <Length>14</Length>
+                                        <Width>8</Width>
+                                        <Shape>Trapezoid</Shape>
+                                        <Hidden>true</Hidden>
+                                      </GaugeMajorTickMarks>
+                                      <GaugeMinorTickMarks>
+                                        <Interval>NaN</Interval>
+                                        <IntervalOffset>NaN</IntervalOffset>
+                                        <Style>
+                                          <Border>
+                                            <Color>DimGray</Color>
+                                            <Style>Solid</Style>
+                                          </Border>
+                                          <BackgroundColor>WhiteSmoke</BackgroundColor>
+                                        </Style>
+                                        <Placement>Cross</Placement>
+                                        <TickMarkImage>
+                                          <Source>External</Source>
+                                          <Value />
+                                        </TickMarkImage>
+                                        <Length>8</Length>
+                                        <Width>3</Width>
+                                        <Hidden>true</Hidden>
+                                      </GaugeMinorTickMarks>
+                                      <MaximumPin>
+                                        <PinLabel>
+                                          <Style>
+                                            <FontSize>12pt</FontSize>
+                                          </Style>
+                                          <DistanceFromScale>0</DistanceFromScale>
+                                        </PinLabel>
+                                        <Style>
+                                          <Border>
+                                            <Color>DimGray</Color>
+                                            <Style>Solid</Style>
+                                          </Border>
+                                          <BackgroundColor>WhiteSmoke</BackgroundColor>
+                                        </Style>
+                                        <Placement>Cross</Placement>
+                                        <TickMarkImage>
+                                          <Source>External</Source>
+                                          <Value />
+                                        </TickMarkImage>
+                                        <Length>6</Length>
+                                        <Width>6</Width>
+                                        <Shape>Circle</Shape>
+                                      </MaximumPin>
+                                      <MinimumPin>
+                                        <PinLabel>
+                                          <Style>
+                                            <FontSize>12pt</FontSize>
+                                          </Style>
+                                          <DistanceFromScale>0</DistanceFromScale>
+                                        </PinLabel>
+                                        <Style>
+                                          <Border>
+                                            <Color>DimGray</Color>
+                                            <Style>Solid</Style>
+                                          </Border>
+                                          <BackgroundColor>WhiteSmoke</BackgroundColor>
+                                        </Style>
+                                        <Placement>Cross</Placement>
+                                        <TickMarkImage>
+                                          <Source>External</Source>
+                                          <Value />
+                                        </TickMarkImage>
+                                        <Length>6</Length>
+                                        <Width>6</Width>
+                                        <Shape>Circle</Shape>
+                                      </MinimumPin>
+                                      <ScaleLabels>
+                                        <Style>
+                                          <FontSize>14pt</FontSize>
+                                        </Style>
+                                        <Interval>NaN</Interval>
+                                        <IntervalOffset>NaN</IntervalOffset>
+                                        <DistanceFromScale>0</DistanceFromScale>
+                                        <Placement>Outside</Placement>
+                                        <ShowEndLabels>true</ShowEndLabels>
+                                        <UseFontPercent>true</UseFontPercent>
+                                      </ScaleLabels>
+                                      <Width>30</Width>
+                                    </RadialScale>
+                                  </GaugeScales>
+                                  <BackFrame>
+                                    <Style>
+                                      <Border>
+                                        <Style>None</Style>
+                                      </Border>
+                                      <BackgroundColor>WhiteSmoke</BackgroundColor>
+                                      <BackgroundGradientType>None</BackgroundGradientType>
+                                      <BackgroundGradientEndColor>Gainsboro</BackgroundGradientEndColor>
+                                      <BackgroundHatchType>None</BackgroundHatchType>
+                                      <ShadowOffset>0pt</ShadowOffset>
+                                    </Style>
+                                    <FrameShape>CustomCircular2</FrameShape>
+                                    <FrameBackground>
+                                      <Style>
+                                        <BackgroundColor>WhiteSmoke</BackgroundColor>
+                                        <BackgroundGradientType>DiagonalLeft</BackgroundGradientType>
+                                        <BackgroundGradientEndColor>Gray</BackgroundGradientEndColor>
+                                        <BackgroundHatchType>None</BackgroundHatchType>
+                                      </Style>
+                                    </FrameBackground>
+                                    <FrameImage>
+                                      <Source>External</Source>
+                                      <Value />
+                                    </FrameImage>
+                                  </BackFrame>
+                                  <ClipContent>true</ClipContent>
+                                  <TopImage>
+                                    <Source>External</Source>
+                                    <Value />
+                                  </TopImage>
+                                  <AspectRatio>1</AspectRatio>
+                                  <Height>100</Height>
+                                  <Width>100</Width>
+                                </RadialGauge>
+                              </RadialGauges>
+                              <GaugeLabels>
+                                <GaugeLabel Name="GaugeLabel1">
+                                  <Text>35</Text>
+                                  <TextShadowOffset>0pt</TextShadowOffset>
+                                  <UseFontPercent>true</UseFontPercent>
+                                  <Style>
+                                    <Border>
+                                      <Style>None</Style>
+                                    </Border>
+                                    <BackgroundColor>#00ffffff</BackgroundColor>
+                                    <BackgroundGradientType>None</BackgroundGradientType>
+                                    <BackgroundGradientEndColor>#00ffffff</BackgroundGradientEndColor>
+                                    <FontFamily>Segoe UI Light</FontFamily>
+                                    <FontSize>14pt</FontSize>
+                                    <TextAlign>Center</TextAlign>
+                                    <VerticalAlign>Middle</VerticalAlign>
+                                    <Color>#333333</Color>
+                                    <ShadowOffset>0pt</ShadowOffset>
+                                  </Style>
+                                  <Top>30</Top>
+                                  <Left>30</Left>
+                                  <Height>40</Height>
+                                  <Width>40</Width>
+                                  <ParentItem>RadialGauges.RadialGauge1</ParentItem>
+                                </GaugeLabel>
+                              </GaugeLabels>
+                              <AutoLayout>true</AutoLayout>
+                              <BackFrame>
+                                <Style>
+                                  <Border>
+                                    <Style>None</Style>
+                                  </Border>
+                                  <BackgroundColor>Gainsboro</BackgroundColor>
+                                  <BackgroundGradientType>None</BackgroundGradientType>
+                                  <BackgroundGradientEndColor>Gray</BackgroundGradientEndColor>
+                                  <BackgroundHatchType>None</BackgroundHatchType>
+                                  <ShadowOffset>0pt</ShadowOffset>
+                                </Style>
+                                <FrameBackground>
+                                  <Style>
+                                    <BackgroundColor>Silver</BackgroundColor>
+                                    <BackgroundGradientType>DiagonalLeft</BackgroundGradientType>
+                                    <BackgroundGradientEndColor>Gray</BackgroundGradientEndColor>
+                                    <BackgroundHatchType>None</BackgroundHatchType>
+                                  </Style>
+                                </FrameBackground>
+                                <FrameImage>
+                                  <Source>External</Source>
+                                  <Value />
+                                </FrameImage>
+                              </BackFrame>
+                              <TopImage>
+                                <Source>External</Source>
+                                <Value />
+                              </TopImage>
+                              <DataSetName>DSFicha</DataSetName>
+                              <Top>15.45166mm</Top>
+                              <Left>45.50833mm</Left>
+                              <Height>50mm</Height>
+                              <Width>75mm</Width>
+                              <ZIndex>4</ZIndex>
+                              <Style>
+                                <Border>
+                                  <Style>None</Style>
+                                </Border>
+                                <BackgroundColor>White</BackgroundColor>
+                              </Style>
+                            </GaugePanel>
+                          </ReportItems>
+                          <KeepTogether>true</KeepTogether>
+                          <Style>
+                            <Border>
+                              <Style>None</Style>
+                            </Border>
+                          </Style>
+                        </Rectangle>
+                      </CellContents>
+                    </TablixCell>
+                  </TablixCells>
+                </TablixRow>
+              </TablixRows>
+            </TablixBody>
+            <TablixColumnHierarchy>
+              <TablixMembers>
+                <TablixMember />
+              </TablixMembers>
+            </TablixColumnHierarchy>
+            <TablixRowHierarchy>
+              <TablixMembers>
+                <TablixMember>
+                  <Group Name="Detalles" />
+                </TablixMember>
+              </TablixMembers>
+            </TablixRowHierarchy>
+            <DataSetName>DSFicha</DataSetName>
+            <Top>17.907mm</Top>
+            <Left>2.24367mm</Left>
+            <Height>73.495mm</Height>
+            <Width>180.55166mm</Width>
+            <Style>
+              <Border>
+                <Style>None</Style>
+              </Border>
+            </Style>
+          </Tablix>
+        </ReportItems>
+        <Height>91.402mm</Height>
+        <Style>
+          <Border>
+            <Style>None</Style>
+          </Border>
+        </Style>
+      </Body>
+      <Width>190.92334mm</Width>
+      <Page>
+        <PageHeader>
+          <Height>38.1mm</Height>
+          <PrintOnFirstPage>true</PrintOnFirstPage>
+          <PrintOnLastPage>true</PrintOnLastPage>
+          <ReportItems>
+            <Textbox Name="Textbox1">
+              <rd:DefaultName>Textbox1</rd:DefaultName>
+              <CanGrow>true</CanGrow>
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>Evaluación Desempeño</Value>
+                      <Style>
+                        <FontFamily>Times New Roman</FontFamily>
+                        <FontSize>28pt</FontSize>
+                        <Color>Brown</Color>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <TextAlign>Center</TextAlign>
+                  </Style>
+                </Paragraph>
+              </Paragraphs>
+              <Top>5.842mm</Top>
+              <Left>41.61367mm</Left>
+              <Height>15.875mm</Height>
+              <Width>99.06mm</Width>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="ReportTitle">
+              <rd:WatermarkTextbox>Title</rd:WatermarkTextbox>
+              <rd:DefaultName>ReportTitle</rd:DefaultName>
+              <CanGrow>true</CanGrow>
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>Ficha de Evaluación Individual</Value>
+                      <Style>
+                        <FontFamily>Segoe UI Light</FontFamily>
+                        <FontSize>28pt</FontSize>
+                      </Style>
+                    </TextRun>
+                  </TextRuns>
+                  <Style />
+                </Paragraph>
+              </Paragraphs>
+              <Top>25.4mm</Top>
+              <Left>2.56117cm</Left>
+              <Height>12.7mm</Height>
+              <Width>139.7mm</Width>
+              <ZIndex>1</ZIndex>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+              </Style>
+            </Textbox>
+          </ReportItems>
+          <Style>
+            <Border>
+              <Style>None</Style>
+            </Border>
+          </Style>
+        </PageHeader>
+        <PageFooter>
+          <Height>54.82167mm</Height>
+          <PrintOnFirstPage>true</PrintOnFirstPage>
+          <PrintOnLastPage>true</PrintOnLastPage>
+          <ReportItems>
+            <Textbox Name="ExecutionTime">
+              <rd:DefaultName>ExecutionTime</rd:DefaultName>
+              <CanGrow>true</CanGrow>
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>=Globals!ExecutionTime</Value>
+                      <Style />
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <TextAlign>Center</TextAlign>
+                  </Style>
+                </Paragraph>
+              </Paragraphs>
+              <Top>37.88834mm</Top>
+              <Left>70.90833mm</Left>
+              <Height>6.35mm</Height>
+              <Width>50.8mm</Width>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="Textbox25">
+              <rd:DefaultName>Textbox25</rd:DefaultName>
+              <CanGrow>true</CanGrow>
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>=Fields!Fortalezas.Value</Value>
+                      <Style />
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <TextAlign>Center</TextAlign>
+                  </Style>
+                </Paragraph>
+              </Paragraphs>
+              <Top>7.57333mm</Top>
+              <Left>12.61533mm</Left>
+              <Height>19.96999mm</Height>
+              <Width>56.32667mm</Width>
+              <ZIndex>1</ZIndex>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <BackgroundColor>LightGrey</BackgroundColor>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+              </Style>
+            </Textbox>
+            <Textbox Name="Textbox26">
+              <rd:DefaultName>Textbox26</rd:DefaultName>
+              <CanGrow>true</CanGrow>
+              <KeepTogether>true</KeepTogether>
+              <Paragraphs>
+                <Paragraph>
+                  <TextRuns>
+                    <TextRun>
+                      <Value>=Fields!OportunidadesMejora.Value</Value>
+                      <Style />
+                    </TextRun>
+                  </TextRuns>
+                  <Style>
+                    <TextAlign>Center</TextAlign>
+                  </Style>
+                </Paragraph>
+              </Paragraphs>
+              <Top>7.57333mm</Top>
+              <Left>126.46866mm</Left>
+              <Height>19.96999mm</Height>
+              <Width>56.32667mm</Width>
+              <ZIndex>2</ZIndex>
+              <Style>
+                <Border>
+                  <Style>None</Style>
+                </Border>
+                <BackgroundColor>LightGrey</BackgroundColor>
+                <PaddingLeft>2pt</PaddingLeft>
+                <PaddingRight>2pt</PaddingRight>
+                <PaddingTop>2pt</PaddingTop>
+                <PaddingBottom>2pt</PaddingBottom>
+              </Style>
+            </Textbox>
+          </ReportItems>
+          <Style>
+            <Border>
+              <Style>None</Style>
+            </Border>
+          </Style>
+        </PageFooter>
+        <PageHeight>29.7cm</PageHeight>
+        <PageWidth>21cm</PageWidth>
+        <LeftMargin>2cm</LeftMargin>
+        <RightMargin>2cm</RightMargin>
+        <TopMargin>2cm</TopMargin>
+        <BottomMargin>2cm</BottomMargin>
+        <ColumnSpacing>0.13cm</ColumnSpacing>
+        <Style />
+      </Page>
+    </ReportSection>
+  </ReportSections>
+  <ReportParameters>
+    <ReportParameter Name="ID_Periodo">
+      <DataType>String</DataType>
+      <Prompt>ID Periodo</Prompt>
+    </ReportParameter>
+    <ReportParameter Name="ID_Empleado">
+      <DataType>String</DataType>
+      <Prompt>ID Empleado</Prompt>
+    </ReportParameter>
+  </ReportParameters>
+  <ReportParametersLayout>
+    <GridLayoutDefinition>
+      <NumberOfColumns>4</NumberOfColumns>
+      <NumberOfRows>2</NumberOfRows>
+      <CellDefinitions>
+        <CellDefinition>
+          <ColumnIndex>0</ColumnIndex>
+          <RowIndex>0</RowIndex>
+          <ParameterName>ID_Periodo</ParameterName>
+        </CellDefinition>
+        <CellDefinition>
+          <ColumnIndex>1</ColumnIndex>
+          <RowIndex>0</RowIndex>
+          <ParameterName>ID_Empleado</ParameterName>
+        </CellDefinition>
+      </CellDefinitions>
+    </GridLayoutDefinition>
+  </ReportParametersLayout>
+</Report>
